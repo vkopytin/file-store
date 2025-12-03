@@ -1,0 +1,16 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model documents {
+  id          String   @id(map: "documents_pk") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  filename    String   @db.VarChar
+  contenttype String   @db.VarChar
+  createdat   DateTime @default(now()) @db.Timestamp(6)
+  data        Bytes
+}
