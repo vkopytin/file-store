@@ -1,9 +1,9 @@
 import { prisma } from '@/lib/prisma'
 import type { NextRequest } from 'next/server'
 
-export async function GET(_req: NextRequest, ctx: { params: Record<string, string> }) {
+export async function GET(_req: NextRequest, ctx: unknown) {
   try {
-    const { id } = await ctx.params as { id: string };
+    const { id } = await (ctx as { params: { id: string } }).params;
     const media = await prisma.documents.findUnique({
       where: { id },
     });
