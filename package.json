@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "postinstall": "prisma generate --no-engine",
+    "-postinstall": "prisma generate --no-engine",
     "generate": "prisma generate",
     "prisma-init": "prisma init",
     "db-pull": "prisma db pull",
