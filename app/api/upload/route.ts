@@ -10,13 +10,13 @@ export async function POST(request: Request) {
   const buffer = Buffer.from(await file.arrayBuffer());
   const binaryData = new Uint8Array(buffer);
 
-  await prisma.documents.create({
-    data: {
-      filename: file.name,
-      contenttype: file.type,
-      data: binaryData,
-    },
-  });
+  //await prisma.documents.create({
+  //  data: {
+  //    filename: file.name,
+  //    contenttype: file.type,
+  //    data: binaryData,
+  //  },
+  //});
 
   return new Response(JSON.stringify({
     ok: true,
