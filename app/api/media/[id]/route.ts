@@ -20,5 +20,7 @@ export async function GET(_req: NextRequest, ctx: unknown) {
     return new Response(media.data, { status: 200, headers });
   } catch (error) {
     return Response.json({ error: 'Failed to fetch media' }, { status: 500 });
+  } finally {
+    await prisma.$disconnect(); // Close the Prisma client connection
   }
 }
