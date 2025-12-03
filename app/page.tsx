@@ -41,7 +41,7 @@ export default function Home() {
         const response = await fetch('/api/media?page=1&limit=10');
         const data = await response.json();
         setTotal(data.total);
-        setMedia(data.results);
+        setMedia(data.results || []);
       } catch (error) {
         console.error('Error fetching media:', error);
       }
