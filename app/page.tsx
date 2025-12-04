@@ -10,7 +10,7 @@ interface DocFile {
   createdAt: string;
 }
 
-async function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
+async function handleFileChange(event: React.ChangeEvent<HTMLInputElement>, token: string) {
   const file = event.target.files?.[0];
   if (!file) {
     return;
@@ -22,6 +22,9 @@ async function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
     await fetch('/api/upload', {
       method: 'POST',
       body: formData,
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
     });
   } catch (error) {
     console.error('Error uploading file:', error);
@@ -34,6 +37,7 @@ async function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
 export default function Home() {
   const [media, setMedia] = useState([]);
   const [total, setTotal] = useState(0);
+  const [token, setToken] = useState('');
 
   useEffect(() => {
     async function fetchMedia() {
@@ -51,7 +55,7 @@ export default function Home() {
   }, [total]);
 
   async function uploadData(event: React.ChangeEvent<HTMLInputElement>) {
-    await handleFileChange(event);
+    await handleFileChange(event, token);
 
     setTotal((prevTotal) => prevTotal + 1);
   }
@@ -59,7 +63,13 @@ export default function Home() {
   return (
 <div className={styles.page}>
     <main className={styles.main}>
-      <input type="file" onInput={uploadData} />
+      <div>
+        <textarea className='w-full h-30'
+          value={token} onChange={(e) => setToken(e.target.value)} />
+      </div>
+      <div>
+          <input type="file" onInput={uploadData} />
+      </div>
     </main>
     <div className="flex flex-col gap-4 p-4">
       {media.map((item: DocFile) => (
